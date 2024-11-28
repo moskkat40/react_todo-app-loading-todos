@@ -1,4 +1,4 @@
-export function AddTodo() {
+export function TodoInput() {
   return (
     <header className="todoapp__header">
       {/* this button should have `active` class only if all todos are completed */}

@@ -10,14 +10,6 @@ export const ErrorNotification: React.FC<Props> = ({
   errorMessage,
   setErrorMessage,
 }) => {
-  {
-    /* DON'T use conditional rendering to hide the notification */
-  }
-
-  {
-    /* Add the 'hidden'  to hide the message smoothly */
-  }
-
   function handleCloseNotification() {
     setErrorMessage('');
   }
@@ -38,14 +30,12 @@ export const ErrorNotification: React.FC<Props> = ({
         className="delete"
       />
       {errorMessage}
-      {/* show only one message at a time */}
-      {/* Title should not be empty
-        <br />
-        Unable to add a todo
-        <br />
-        Unable to delete a todo
-        <br />
-        Unable to update a todo */}
+      {/* <br />
+      Unable to add a todo
+      <br />
+      Unable to delete a todo
+      <br />
+      Unable to update a todo */}
     </div>
   );
 };

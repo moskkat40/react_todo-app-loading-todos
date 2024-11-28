@@ -1,23 +1,18 @@
 import classNames from 'classnames';
 import { Todo } from '../../types/Todo';
+import { Filter } from '../../types/Filter';
 
 type Props = {
   filter: string;
-  setFilter: (a: string) => void;
+  setFilter: (a: Filter) => void;
   todos: Todo[];
 };
 
-export const FooterFiltering: React.FC<Props> = ({
-  filter,
-  setFilter,
-  todos,
-}) => {
+export const Footer: React.FC<Props> = ({ filter, setFilter, todos }) => {
   function handleFilter(event: React.MouseEvent<HTMLElement>) {
-    setFilter(event.currentTarget.textContent || '');
-  }
+    const filterValue = event.currentTarget.textContent as Filter;
 
-  {
-    /* Hide the footer if there are no todos */
+    setFilter(filterValue);
   }
 
   return (

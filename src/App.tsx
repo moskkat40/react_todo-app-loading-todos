@@ -6,28 +6,23 @@ import { UserWarning } from './UserWarning';
 import { USER_ID } from './api/todos';
 import * as servisesTodos from './api/todos';
 import { Todo } from './types/Todo';
-import { AddTodo } from './components/AddTodo/AddTodo';
+import { TodoInput } from './components/AddTodo/TodoInput';
 import { TodoList } from './components/TodoList/TodoList';
 import { ErrorNotification } from './components/ErrorNotification/ErrorNotification';
-import { FooterFiltering } from './components/FooterFiltering/FooterFiltering';
+import { Footer } from './components/FooterFiltering/Footer';
+import { Filter } from './types/Filter';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [filter, setFilter] = useState('All');
+  const [filter, setFilter] = useState<Filter>('All');
 
-  if (!USER_ID) {
-    return <UserWarning />;
-  }
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     servisesTodos
       .getTodos()
       .then(setTodos)
-      .catch(error => {
+      .catch(() => {
         setErrorMessage('Unable to load todos');
-        throw error;
       })
       .finally(() =>
         setTimeout(() => {
@@ -36,31 +31,32 @@ export const App: React.FC = () => {
       );
   }, []);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const filteredTodos = useMemo(() => {
     if (filter === 'Active') {
       return todos.filter(todo => !todo.completed);
-    } else if (filter === 'Completed') {
+    }
+
+    if (filter === 'Completed') {
       return todos.filter(todo => todo.completed);
     }
 
     return todos;
   }, [filter, todos]);
 
+  if (!USER_ID) {
+    return <UserWarning />;
+  }
+
   return (
     <div className="todoapp">
       <h1 className="todoapp__title">todos</h1>
 
       <div className="todoapp__content">
-        <AddTodo />
+        <TodoInput />
 
         <TodoList filteredTodos={filteredTodos} />
         {todos.length > 0 && (
-          <FooterFiltering
-            filter={filter}
-            setFilter={setFilter}
-            todos={todos}
-          />
+          <Footer filter={filter} setFilter={setFilter} todos={todos} />
         )}
       </div>
       <ErrorNotification
